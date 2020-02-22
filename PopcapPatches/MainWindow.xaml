@@ -1,0 +1,106 @@
+﻿<Window
+  x:Class="PopcapPatches.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:local="clr-namespace:PopcapPatches"
+  mc:Ignorable="d"
+  ResizeMode="CanMinimize"
+  WindowStartupLocation="CenterScreen"
+  Title="Popcap Patches"
+  Height="400"
+  Width="400">
+  <Window.Resources>
+    <Style
+      x:Key="{x:Type Button}"
+      TargetType="Button">
+      <Setter
+        Property="Background"
+        Value="#2888"></Setter>
+      <Setter
+        Property="BorderThickness"
+        Value="0"></Setter>
+      <Setter
+        Property="Padding"
+        Value="16, 8"></Setter>
+      <Setter
+        Property="Margin"
+        Value="16, 8"></Setter>
+      <Setter
+        Property="Cursor"
+        Value="Hand"></Setter>
+    </Style>
+    <Style
+      x:Key="{x:Type CheckBox}"
+      TargetType="CheckBox">
+      <Setter
+        Property="Margin"
+        Value="16, 6"></Setter>
+    </Style>
+  </Window.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition
+        Width="Auto"></ColumnDefinition>
+      <ColumnDefinition
+        Width="1*"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition
+        Height="1*"></RowDefinition>
+      <RowDefinition
+        Height="Auto"></RowDefinition>
+      <RowDefinition
+        Height="3*"></RowDefinition>
+    </Grid.RowDefinitions>
+    <TextBlock
+      Grid.ColumnSpan="2"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      FontWeight="Bold"
+      FontSize="18"
+      TextWrapping="Wrap"
+      Margin="16, 0"
+      Text="{Binding Filename}">
+    </TextBlock>
+    <StackPanel
+      Grid.Row="1"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Orientation="Vertical">
+      <Button
+        IsEnabled="{Binding NotBusy}"
+        x:Name="buttonOpenFile"
+        Click="buttonOpenFile_Click">Open file</Button>
+      <Button
+        FontWeight="Bold"
+        IsEnabled="{Binding CanPatch}"
+        x:Name="buttonPatch"
+        Click="buttonPatch_Click">Patch</Button>
+    </StackPanel>
+    <StackPanel
+      Grid.Row="1"
+      Grid.Column="1"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Orientation="Vertical">
+      <CheckBox
+        IsEnabled="{Binding NotBusy}"
+        IsChecked="{Binding RemoveVideoMemoryCheck}">Remove video memory check</CheckBox>
+      <CheckBox
+        IsEnabled="{Binding NotBusy}"
+        IsChecked="{Binding RemoveVideoCardCheck}">Remove video card check</CheckBox>
+    </StackPanel>
+    <Grid
+      Grid.Row="2"
+      Grid.ColumnSpan="2">
+      <TextBlock
+        VerticalAlignment="Bottom"
+        Margin="24, 16"
+        TextWrapping="Wrap"
+        Text="{Binding Log}">
+      </TextBlock>
+    </Grid>
+  </Grid>
+</Window>
