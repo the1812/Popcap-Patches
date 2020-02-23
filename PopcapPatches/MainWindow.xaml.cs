@@ -34,5 +34,16 @@ namespace PopcapPatches
     {
       vm.RunPatch();
     }
+    private void Window_Drop(object sender, DragEventArgs e)
+    {
+      if (e.Data.GetDataPresent(DataFormats.FileDrop))
+      {
+        var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+        if (files.Length > 0)
+        {
+          vm.SelectFile(files[0]);
+        }
+      }
+    }
   }
 }

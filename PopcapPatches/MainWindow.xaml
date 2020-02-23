@@ -9,8 +9,11 @@
   ResizeMode="CanMinimize"
   WindowStartupLocation="CenterScreen"
   Title="Popcap Patches"
+  SizeToContent="Height"
   Height="400"
-  Width="400">
+  Width="400"
+  AllowDrop="True"
+  Drop="Window_Drop">
   <Window.Resources>
     <Style
       x:Key="{x:Type Button}"
@@ -36,7 +39,7 @@
       TargetType="CheckBox">
       <Setter
         Property="Margin"
-        Value="16, 6"></Setter>
+        Value="0, 6"></Setter>
     </Style>
   </Window.Resources>
   <Grid>
@@ -52,6 +55,8 @@
       <RowDefinition
         Height="Auto"></RowDefinition>
       <RowDefinition
+        Height="Auto"></RowDefinition>
+      <RowDefinition
         Height="3*"></RowDefinition>
     </Grid.RowDefinitions>
     <TextBlock
@@ -61,7 +66,7 @@
       FontWeight="Bold"
       FontSize="18"
       TextWrapping="Wrap"
-      Margin="16, 0"
+      Margin="16, 24"
       Text="{Binding Filename}">
     </TextBlock>
     <StackPanel
@@ -85,6 +90,10 @@
       HorizontalAlignment="Center"
       VerticalAlignment="Center"
       Orientation="Vertical">
+      <TextBlock
+        Margin="0,0,0,6">
+        Options
+      </TextBlock>
       <CheckBox
         IsEnabled="{Binding NotBusy}"
         IsChecked="{Binding RemoveVideoMemoryCheck}">Remove video memory check</CheckBox>
@@ -92,12 +101,109 @@
         IsEnabled="{Binding NotBusy}"
         IsChecked="{Binding RemoveVideoCardCheck}">Remove video card check</CheckBox>
     </StackPanel>
-    <Grid
+    <Expander
       Grid.Row="2"
+      Grid.ColumnSpan="2"
+      HorizontalAlignment="Stretch"
+      Margin="16, 8"
+      Header="Advanced Options"
+      IsExpanded="False"
+      ExpandDirection="Down">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+          <Style
+            x:Key="{x:Type TextBox}"
+            TargetType="TextBox">
+            <Setter
+              Property="FontFamily"
+              Value="Consolas" />
+            <Setter
+              Property="Padding"
+              Value="4" />
+            <Setter
+              Property="Margin"
+              Value="0, 0, 4, 4" />
+            <Setter
+              Property="MinWidth"
+              Value="24" />
+            <Setter
+              Property="TextWrapping"
+              Value="Wrap" />
+            <Setter
+              Property="AcceptsReturn"
+              Value="True" />
+          </Style>
+        </Grid.Resources>
+        <StackPanel
+          Orientation="Vertical">
+          <TextBlock
+            Margin="0,8,0,4">
+            Signature Check Pattern:
+          </TextBlock>
+          <WrapPanel
+            Orientation="Horizontal">
+            <TextBox
+              Text="{Binding SignatureCheckLeft}"></TextBox>
+            <TextBox
+              MaxLength="2"
+              AcceptsReturn="False"
+              Text="{Binding SignatureCheckCenter}"></TextBox>
+            <TextBox
+              Text="{Binding SignatureCheckRight}"></TextBox>
+          </WrapPanel>
+        </StackPanel>
+        <StackPanel
+          Grid.Row="1"
+          Orientation="Vertical">
+          <TextBlock
+            Margin="0,4,0,4">
+            Video Memory Check Pattern:
+          </TextBlock>
+          <WrapPanel
+            Orientation="Horizontal">
+            <TextBox
+              Text="{Binding VideoMemoryCheckLeft}"></TextBox>
+            <TextBox
+              MaxLength="2"
+              AcceptsReturn="False"
+              Text="{Binding VideoMemoryCheckCenter}"></TextBox>
+            <TextBox
+              Text="{Binding VideoMemoryCheckRight}"></TextBox>
+          </WrapPanel>
+        </StackPanel>
+        <StackPanel
+          Grid.Row="2"
+          Orientation="Vertical">
+          <TextBlock
+            Margin="0,4,0,4">
+            Video Card Check Pattern:
+          </TextBlock>
+          <WrapPanel
+            Orientation="Horizontal">
+            <TextBox
+              Text="{Binding VideoCardCheckLeft}"></TextBox>
+            <TextBox
+              MaxLength="2"
+              AcceptsReturn="False"
+              Text="{Binding VideoCardCheckCenter}"></TextBox>
+            <TextBox
+              Text="{Binding VideoCardCheckRight}"></TextBox>
+          </WrapPanel>
+        </StackPanel>
+      </Grid>
+    </Expander>
+    <Grid
+      Height="160"
+      Grid.Row="3"
       Grid.ColumnSpan="2">
       <TextBlock
         VerticalAlignment="Bottom"
-        Margin="24, 16"
+        Margin="16"
         TextWrapping="Wrap"
         Text="{Binding Log}">
       </TextBlock>

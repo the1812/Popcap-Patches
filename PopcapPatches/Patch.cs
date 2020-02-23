@@ -21,7 +21,7 @@ namespace PopcapPatches
   }
   sealed class Patch
   {
-    private string inputString;
+    private readonly string inputString;
     public byte[] Output { get; private set; }
     public Patch(byte[] input)
     {
@@ -61,47 +61,35 @@ namespace PopcapPatches
         return matches[0].Index / 2;
       }
     }
-    public void RemoveSignatureCheck()
+    public void RemoveSignatureCheck(string pattern, int startIndex)
     {
-      var pattern = new BytePattern
+      var bytePattern = new BytePattern
       {
-        Pattern = new string[]
-        {
-          "C.{1}", "FF", "D2", "84", "C0",
-          "0F", "*", "*", "*", "00", "00", "68",
-        }
+        Pattern = pattern.Replace("\n", " ").Replace("\r", " ").Split(' '),
       };
-      var index = pattern.Match(inputString);
-      Output[index + 5] = Convert.ToByte("E9", 16);
-      Output[index + 6] = (byte)(Output[index + 7] + 1);
-      Output[index + 7] = Output[index + 8];
-      Output[index + 8] = 0;
-      Output[index + 10] = Convert.ToByte("90", 16); ;
+      var index = bytePattern.Match(inputString);
+      Output[index + startIndex] = Convert.ToByte("E9", 16);
+      Output[index + startIndex + 1] = (byte)(Output[index + startIndex + 2] + 1);
+      Output[index + startIndex + 2] = Output[index + startIndex + 3];
+      Output[index + startIndex + 3] = 0;
+      Output[index + startIndex + 5] = Convert.ToByte("90", 16); ;
     }
-    public void RemoveVideoMemoryCheck()
+    public void RemoveVideoMemoryCheck(string pattern, int startIndex)
     {
-      var pattern = new BytePattern
+      var bytePattern = new BytePattern
       {
-        Pattern = new string[]
-        {
-          "FF", "C1", "E8", "14", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*",
-          "73",
-        }
+        Pattern = pattern.Replace("\n", " ").Replace("\r", " ").Split(' '),
       };
-      var index = pattern.Match(inputString) + 16;
+      var index = bytePattern.Match(inputString) + startIndex;
       Output[index] = Convert.ToByte("EB", 16);
     }
-    public void RemoveVideoCardCheck()
+    public void RemoveVideoCardCheck(string pattern, int startIndex)
     {
-      var pattern = new BytePattern
+      var bytePattern = new BytePattern
       {
-        Pattern = new string[]
-        {
-          "8B", "*", "50", "EB", "03", "8D", "*", "*", "*", "*", "*", "*", "FF", "FF", "84", "C0",
-          "75",
-        }
+        Pattern = pattern.Replace("\n", " ").Replace("\r", " ").Split(' '),
       };
-      var index = pattern.Match(inputString) + 16;
+      var index = bytePattern.Match(inputString) + startIndex;
       Output[index] = Convert.ToByte("EB", 16);
     }
   }

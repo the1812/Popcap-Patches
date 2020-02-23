@@ -56,17 +56,25 @@ namespace PopcapPatches
 
 
     private string fileFullPath = "";
-    public void SelectFile()
+    public void SelectFile(string filePath = null)
     {
-      var dialog = new OpenFileDialog
+      if (filePath is null)
       {
-        Title = "Select file to patch",
-        Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*",
-        DefaultExt = ".exe",
-      };
-      if (dialog.ShowDialog(window) ?? false)
+        var dialog = new OpenFileDialog
+        {
+          Title = "Select file to patch",
+          Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*",
+          DefaultExt = ".exe",
+        };
+        if (dialog.ShowDialog(window) ?? false)
+        {
+          fileFullPath = dialog.FileName;
+          Filename = Path.GetFileName(fileFullPath);
+        }
+      }
+      else
       {
-        fileFullPath = dialog.FileName;
+        fileFullPath = filePath;
         Filename = Path.GetFileName(fileFullPath);
       }
     }
@@ -84,6 +92,16 @@ namespace PopcapPatches
       }
     }
 
+    public string SignatureCheckLeft { get; set; } = "C.{1} FF D2 84 C0";
+    public string SignatureCheckCenter { get; set; } = "0F";
+    public string SignatureCheckRight { get; set; } = "* * * 00 00 68";
+    public string VideoMemoryCheckLeft { get; set; } = "FF C1 E8 14 * * * * * * * * * * * *";
+    public string VideoMemoryCheckCenter { get; set; } = "73";
+    public string VideoMemoryCheckRight { get; set; } = "";
+    public string VideoCardCheckLeft { get; set; } = "8B * 50 EB 03 8D * * * * * * FF FF 84 C0";
+    public string VideoCardCheckCenter { get; set; } = "75";
+    public string VideoCardCheckRight { get; set; } = "";
+
     public async void RunPatch()
     {
       await Task.Run(() =>
@@ -96,19 +114,22 @@ namespace PopcapPatches
           AddLog($"File: {Filename}");
           var suffix = "-nosig";
           var patch = new Patch(File.ReadAllBytes(fileFullPath));
-          AddLog("Remove signature check");
-          patch.RemoveSignatureCheck();
+          var signatureCheckPattern = $"{SignatureCheckLeft} {SignatureCheckCenter} {SignatureCheckRight}";
+          patch.RemoveSignatureCheck(signatureCheckPattern, SignatureCheckLeft.Split(' ').Length);
+          AddLog("Remove signature check: OK");
           if (RemoveVideoMemoryCheck)
           {
             suffix += "+vmem";
-            AddLog("Remove video memory check");
-            patch.RemoveVideoMemoryCheck();
+            var videoMemoryPattern = $"{VideoMemoryCheckLeft} {VideoMemoryCheckCenter} {VideoMemoryCheckRight}";
+            patch.RemoveVideoMemoryCheck(videoMemoryPattern, VideoMemoryCheckLeft.Split(' ').Length);
+            AddLog("Remove video memory check: OK");
           }
           if (RemoveVideoCardCheck)
           {
             suffix += "+vard";
-            AddLog("Remove video card check");
-            patch.RemoveVideoCardCheck();
+            var videoCardPattern = $"{VideoCardCheckLeft} {VideoCardCheckCenter} {VideoCardCheckRight}";
+            patch.RemoveVideoCardCheck(videoCardPattern, VideoCardCheckLeft.Split(' ').Length);
+            AddLog("Remove video card check: OK");
           }
           var outputFilename = $"{Path.GetFileNameWithoutExtension(Filename)}{suffix}{Path.GetExtension(Filename)}";
           var outputPath = Path.Combine(Path.GetDirectoryName(fileFullPath), outputFilename);
