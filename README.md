@@ -14,6 +14,14 @@ This tool only help you make patched game file. For the full process, please ref
 
 May work in other games not in this list.
 
+### Need configuring
+#### Peggle Deluxe
+Add 2 more `*` in _Advanced Options > Video Card Check Pattern_.
+
+`8B * 50 EB 03 8D * * * * * * FF FF 84 C0` → `8B * 50 EB 03 8D * * * * * * * * FF FF 84 C0`
+
+See [issue #1](https://github.com/the1812/Popcap-Patches/issues/1) for details.
+
 ## Download
 Please visit [Releases](https://github.com/the1812/Popcap-Patches/releases) page.
 
