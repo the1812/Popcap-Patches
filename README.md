@@ -4,7 +4,7 @@ A tool for fixing 3D acceleration of Popcap games in Windows 10, based on [cheez
 
 This tool only help you make patched game file. For the full process, please refer to the [original repo](https://github.com/cheez3d/popcap-patches/tree/master/popcap-games/bejeweled-3).
 
-## Games Support
+## Games Support (for Popcap version / Steam version)
 - Bejeweled 2 Deluxe
 - Bejeweled 3
 - Bejeweled Blitz
