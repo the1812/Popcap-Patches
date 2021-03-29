@@ -17,17 +17,10 @@ This tool only help you make patched game file. For the full process, please ref
 - Peggle Nights *
 
 ## Known issues
+- Peggle Deluxe needs extra configuring, see [issue #1](https://github.com/the1812/Popcap-Patches/issues/1) for details.
 - For Peggle series and Zuma Deluxe, run patch only if you don't need full screen. These games cannot be both full screen and 3D accelerated.
 - In Zuma's Revenge, if your screen aspect ratio is different than the game, game area may get  clipped when running in full screen mode. (expected "contain" filling mode but actually get "cover")
 - May not work with Origin version, or languages other than English.
-
-### Need configuring
-#### Peggle Deluxe
-Add 2 more `*` in _Advanced Options > Video Card Check Pattern_.
-
-`8B * 50 EB 03 8D * * * * * * FF FF 84 C0` → `8B * 50 EB 03 8D * * * * * * * * FF FF 84 C0`
-
-See [issue #1](https://github.com/the1812/Popcap-Patches/issues/1) for details.
 
 ## Download
 Please visit [Releases](https://github.com/the1812/Popcap-Patches/releases) page.
