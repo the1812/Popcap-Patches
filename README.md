@@ -5,14 +5,21 @@ A tool for fixing 3D acceleration of Popcap games in Windows 10, based on [cheez
 This tool only help you make patched game file. For the full process, please refer to the [original repo](https://github.com/cheez3d/popcap-patches/tree/master/popcap-games/bejeweled-3).
 
 ## Games Support
+`*` stands for not perfectly supported, see [Known issues](#known-issues) below for more info.
+
 - Bejeweled 2 Deluxe
 - Bejeweled 3
 - Bejeweled Blitz
 - Bejeweled Twist
-- Zuma's Revenge
-- Peggle Nights
+- Zuma Deluxe *
+- Zuma's Revenge *
+- Peggle Deluxe *
+- Peggle Nights *
 
-May work in other games not in this list.
+## Known issues
+- For Peggle series and Zuma Deluxe, run patch only if you don't need full screen. These games cannot be both full screen and 3D accelerated.
+- In Zuma's Revenge, if your screen aspect ratio is different than the game, game area may get  clipped when running in full screen mode. (expected "contain" filling mode but actually get "cover")
+- May not work with Origin version, or languages other than English.
 
 ### Need configuring
 #### Peggle Deluxe
